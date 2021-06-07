@@ -50,7 +50,7 @@ public class MazeMaker {
 		// 2. select a random cell in the maze to start
 
 		// 3. call the selectNextPath method with the randomly selected cell
-		selectNextPath(maze.grid[randGen.nextInt(rows)][randGen.nextInt(cols)]);
+		selectNextPath(maze.getCell(randGen.nextInt(rows), randGen.nextInt(cols)));
 		return maze;
 	}
 
@@ -59,29 +59,31 @@ public class MazeMaker {
 		// A. SET currentCell as visited
 		currentCell.setBeenVisited(true);
 		// B. check for unvisited neighbors using the cell
-
+		int numUnvisited = getUnvisitedNeighbors(currentCell).size();
 		// C. if has unvisited neighbors,
-
-		// C1. select one at random.
-
-		// C2. push it to the stack
-
-		// C3. remove the wall between the two cells
-
-		// C4. make the new cell the current cell and SET it as visited
-
-		// C5. call the selectNextPath method with the current cell
-
-		// D. if all neighbors are visited
-
-		// D1. if the stack is not empty
-
-		// D1a. pop a cell from the stack
-
-		// D1b. make that the current cell
-
-		// D1c. call the selectNextPath method with the current cell
-
+		if (numUnvisited > 0) {
+			// C1. select one at random.
+			int random = randGen.nextInt(numUnvisited);
+			// C2. push it to the stack
+			uncheckedCells.push(getUnvisitedNeighbors(currentCell).get(random));
+			// C3. remove the wall between the two cells
+			removeWalls(currentCell, getUnvisitedNeighbors(currentCell).get(random));
+			// C4. make the new cell the current cell and SET it as visited
+			currentCell = getUnvisitedNeighbors(currentCell).get(random);
+			currentCell.setBeenVisited(true);
+			// C5. call the selectNextPath method with the current cell
+			selectNextPath(currentCell);
+			// D. if all neighbors are visited
+		} else {
+			// D1. if the stack is not empty
+			if (uncheckedCells.isEmpty() == false) {
+				// D1a. pop a cell from the stack
+				// D1b. make that the current cell
+				currentCell = uncheckedCells.pop();
+				// D1c. call the selectNextPath method with the current cell
+				selectNextPath(currentCell);
+			}
+		}
 	}
 
 	// This method will check if c1 and c2 are adjacent.
