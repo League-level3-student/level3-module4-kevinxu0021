@@ -89,24 +89,24 @@ public class MazeMaker {
 	// This method will check if c1 and c2 are adjacent.
 	// If they are, the walls between them are removed.
 	private static void removeWalls(Cell c1, Cell c2) {
-		if (c1.getRow() == c2.getRow()) {
-			if (c1.getCol() > c2.getCol()) {
-				c1.setNorthWall(false);
-				c2.setSouthWall(false);
-			} else {
-				c2.setNorthWall(false);
-				c1.setSouthWall(false);
-			}
-		} else {
-			if (c1.getRow() > c2.getRow()) {
-				c1.setWestWall(false);
-				c2.setEastWall(false);
-			} else {
-				c2.setWestWall(false);
-				c1.setEastWall(false);
-			}
-		}
-	}
+        if (c1.getRow() == c2.getRow()) {
+            if (c1.getCol() > c2.getCol()) {
+                c1.setWestWall(false);
+                c2.setEastWall(false);
+            } else {
+                c1.setEastWall(false);
+                c2.setWestWall(false);
+            }
+        } else {
+            if (c1.getRow() > c2.getRow()) {
+                c1.setNorthWall(false);
+                c2.setSouthWall(false);
+            } else {
+                c1.setSouthWall(false);
+                c2.setNorthWall(false);
+            }
+        }
+    }
 
 	// This method returns a list of all the neighbors around the specified
 	// cell that have not been visited. There are up to 4 neighbors per cell.
